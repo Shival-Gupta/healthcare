@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  admin-portal:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./admin:/admin
+    environment:
+      - NODE_ENV=production
+
+  patient-portal:
+    build:
+      context: ./patient
+      dockerfile: Dockerfile
+    ports:
+      - "4001:4001"
+    volumes:
+      - ./patient:/patient
+    environment:
+      - NODE_ENV=production
+
+  provider-portal:
+    build:
+      context: ./provider
+      dockerfile: Dockerfile
+    ports:
+      - "4002:4002"
+    volumes:
+      - ./provider:/provider
+    environment:
+      - NODE_ENV=production
