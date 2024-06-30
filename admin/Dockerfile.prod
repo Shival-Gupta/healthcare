@@ -1,0 +1,45 @@
+# Development Stage
+FROM node:18-alpine
+
+WORKDIR /admin
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+EXPOSE 4000
+
+CMD ["npm", "run", "dev"]
+
+
+# Builder Stage
+FROM node:18-alpine AS builder
+
+WORKDIR /admin
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
+
+# Production Stage 
+FROM node:18-alpine AS production
+
+WORKDIR /admin
+
+# Copy the built artifacts from the builder stage
+COPY --from=builder /admin/.next/standalone ./
+COPY --from=builder /admin/.next/static ./.next/static
+
+# Set the environment variables (if needed)
+ENV NODE_ENV=production
+
+EXPOSE 4000
+
+CMD ["node", "server.js"]
