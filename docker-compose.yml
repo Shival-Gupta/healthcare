@@ -1,35 +1,35 @@
 version: '3.8'
 
 services:
-  admin-portal:
+  admin:
     build:
       context: ./admin
-      dockerfile: Dockerfile
+      target: development
     ports:
       - "4000:4000"
-    volumes:
-      - ./admin:/admin
     environment:
-      - NODE_ENV=production
+      NODE_ENV: development
+    volumes:
+      - ./admin:/app
 
-  patient-portal:
+  patient:
     build:
       context: ./patient
-      dockerfile: Dockerfile
+      target: development
     ports:
       - "4001:4001"
-    volumes:
-      - ./patient:/patient
     environment:
-      - NODE_ENV=production
+      NODE_ENV: development
+    volumes:
+      - ./patient:/app
 
-  provider-portal:
+  provider:
     build:
       context: ./provider
-      dockerfile: Dockerfile
+      target: development
     ports:
       - "4002:4002"
-    volumes:
-      - ./provider:/provider
     environment:
-      - NODE_ENV=production
+      NODE_ENV: development
+    volumes:
+      - ./provider:/app

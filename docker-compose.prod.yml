@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  admin:
+    build:
+      context: ./admin
+      target: production
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+
+  patient:
+    build:
+      context: ./patient
+      target: production
+    ports:
+      - "5001:5001"
+    environment:
+      NODE_ENV: production
+
+  provider:
+    build:
+      context: ./provider
+      target: production
+    ports:
+      - "5002:5002"
+    environment:
+      NODE_ENV: production
