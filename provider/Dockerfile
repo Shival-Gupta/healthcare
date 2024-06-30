@@ -4,6 +4,9 @@ FROM node:18-alpine
 # Set the working directory inside the container
 WORKDIR /provider
 
+# Install dependencies including Next.js
+RUN npm install next react react-dom
+
 # Copy package.json and package-lock.json (if available) to container
 COPY package*.json ./
 
