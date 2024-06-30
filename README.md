@@ -69,26 +69,44 @@ The project directory is structured as follows:
 healthcare/
 │
 ├── admin/
+│   ├── src/
+|   ├── package.json
 │   ├── Dockerfile
-│   └── ...
+│   └── ... (other files)
 │
 ├── patient/
+│   ├── src/
+|   ├── package.json
 │   ├── Dockerfile
-│   └── ...
+│   └── ... (other files)
 │
 ├── provider/
+│   ├── src/
+|   ├── package.json
 │   ├── Dockerfile
-│   └── ...
+│   └── ... (other files)
 │
-├── .dockerignore
 ├── docker-compose.yml
+├── docker-compose.prod.yml
+├── info.sh
 ├── LICENSE
+├── package.json
 └── README.md
 ```
 
 ## Contributing
 
 Contributions are welcome! Please see the [CONTRIBUTING.md](./CONTRIBUTING.md) file for guidelines.
+
+## Usage Information
+
+### Development URLs
+
+After running `docker-compose up --build`, access the development websites at:
+
+- Admin Portal: http://192.168.29.16:4000
+- Patient Portal: http://192.168.29.16:4001
+- Provider Portal: http://192.168.29.16:4002
 
 ## License
 
