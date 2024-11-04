@@ -1,79 +1,40 @@
-import { Calendar, LibraryBig, User, Settings, HelpCircle } from "lucide-react"; // Import icons as needed
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-// Card items
-const cardItems = [
-  {
-    title: "Appointments",
-    url: "/appointments",
-    description: "Manage your appointments",
-    icon: Calendar,
-  },
-  {
-    title: "Medical Records",
-    url: "/records",
-    description: "View your medical records",
-    icon: LibraryBig,
-  },
-  {
-    title: "Profile",
-    url: "/profile",
-    description: "View and edit your profile",
-    icon: User,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    description: "Manage your account settings",
-    icon: Settings,
-  },
-  {
-    title: "Support",
-    url: "/support",
-    description: "Get help and support",
-    icon: HelpCircle,
-  },
-  // Add more items as needed
-];
-
-export default function PatientPage() {
+export default function LandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-4">
-      <div className="flex flex-col items-center justify-center">
-        <p className="text-lg">
-          Manage appointments, view medical records, and access telemedicine services.
+    <main className="flex min-h-screen flex-col items-center justify-center p-6">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold">Welcome to the Patient Portal</h1>
+        <p className="mt-4 text-lg text-gray-600">
+          Access all your health records, book appointments, and manage your medical information seamlessly.
         </p>
-        <hr className="pb-5" />
-        <div className="grid grid-cols-4 gap-4">
-          {cardItems.map((item, index) => (
-            <div key={index + 1}>
-              <a href={item.url} className="block">
-                <Card className="min-w-[150px] max-w-[300px] min-h-[200px] max-h-[400px]">
-                  <CardHeader>
-                    <CardTitle>
-                      <item.icon className="inline-block mr-2" />
-                      {item.title}
-                    </CardTitle>
-                    <CardDescription>{item.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p>Click to go to {item.title}</p>
-                  </CardContent>
-                  <CardFooter>
-                    <p>Footer info for {item.title}</p>
-                  </CardFooter>
-                </Card>
-              </a>
-            </div>
-          ))}
+        <div className="mt-8 space-x-4">
+          <Link href="/login">
+            <Button variant="default">Login</Button>
+          </Link>
+          <Link href="/signup">
+            <Button variant="secondary">Sign Up</Button>
+          </Link>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 w-full max-w-5xl">
+        {[
+          { title: "Appointments", description: "Book and manage your appointments easily." },
+          { title: "Medical Records", description: "View and download your medical records securely." },
+          { title: "Telemedicine", description: "Consult with doctors online from anywhere." },
+        ].map((feature, index) => (
+          <Card key={index} className="p-6 text-center">
+            <CardHeader>
+              <CardTitle>{feature.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>{feature.description}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </main>
   );

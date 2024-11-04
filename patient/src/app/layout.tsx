@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider"
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeader } from "@/components/layout/site-header";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import SiteFooter from "@/components/layout/footer";
 
 const fontFace = Inter({ subsets: ["latin"] });
 
@@ -11,21 +12,16 @@ export const metadata: Metadata = {
   description: "Portal for patients to manage appointments, view medical records, and access telemedicine services.",
 };
 
-export default function RootLayout({ children }:
-  Readonly<{ children: React.ReactNode; }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
       <body className={fontFace.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          // disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <>
             <SiteHeader />
             {children}
+            <SiteFooter />
           </>
         </ThemeProvider>
       </body>

@@ -1,23 +1,20 @@
-import Link from "next/link"
-import { cn } from "@/lib/utils"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { SearchMenu } from "@/components/search-menu"
-// import { MainNav } from "@/components/main-nav"
-// import { MobileNav } from "@/components/mobile-nav"
-// import { buttonVariants } from "@/registry/new-york/ui/button"
-import { siteConfig } from "@/config/site"
-import { Icons } from "@/components/icons"
-import { buttonVariants } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { SidebarTrigger } from "@/components/ui/sidebar"
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { SearchMenu } from "@/components/navigation/search-menu";
+import { siteConfig } from "@/config/site";
+import { Icons } from "@/components/icons";
+import { buttonVariants } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div>
-          {/* <SidebarTrigger /> */}
-          <Label>Patient Portal</Label>
+          <Link href="/" passHref>
+            <Label className="cursor-pointer">Patient Portal</Label>
+          </Link>
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
@@ -63,5 +60,5 @@ export function SiteHeader() {
         </div>
       </div>
     </header>
-  )
+  );
 }
