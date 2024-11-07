@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   admin:
     build:
@@ -11,6 +9,8 @@ services:
       NODE_ENV: development
     volumes:
       - ./admin:/app
+    depends_on:
+      - backend
 
   patient:
     build:
@@ -22,6 +22,8 @@ services:
       NODE_ENV: development
     volumes:
       - ./patient:/app
+    depends_on:
+      - backend
 
   provider:
     build:
@@ -33,3 +35,62 @@ services:
       NODE_ENV: development
     volumes:
       - ./provider:/app
+    depends_on:
+      - backend
+
+  status:
+    build:
+      context: ./status
+      target: development
+    ports:
+      - "4003:4003"
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./status:/app
+
+  backend:
+    build:
+      context: ./backend
+      target: development
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      # Add your actual environment variables here (from .env)
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: your_postgres_user
+      POSTGRES_PASSWORD: your_postgres_password
+      POSTGRES_DB: your_postgres_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: your_mongo_user
+      MONGO_INITDB_ROOT_PASSWORD: your_mongo_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
+  mongo_data:

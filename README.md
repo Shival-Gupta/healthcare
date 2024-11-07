@@ -1,115 +1,95 @@
 # Healthcare System
 
-## Description
+A healthcare management platform that streamlines patient care, provider services, and administrative operations.
 
-A comprehensive healthcare management system integrating patient care, provider services, and administrative operations.
+## Table of Contents
+
+- [Features](#features)
+- [Components](#components)
+- [Installation](#installation)
+- [Directory Structure](#directory-structure)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- **AI-powered Assistant**: Offers guidance to patients and providers.
+- **Medical Records Digilocker**: Securely stores patient records.
+- **Automated Result Analysis**: Interprets medical tests.
+- **Personalized Chatbot**: Assists patients with basic healthcare queries.
+- **Data Encryption**: Secures sensitive data.
+- **Patient Portal**: Manage records, appointments, and communication.
+- **Provider Portal**: Access and update records, analyze data.
+- **Admin Portal**: Manage users, monitor performance, and generate reports.
 
 ## Components
 
-- **Admin Portal**: Web application for administrative staff to manage operations.
-- **Patient Portal**: Web application for patients to manage appointments and access medical records.
-- **Provider Portal**: Web application for healthcare providers to manage patient care.
+- **Admin Portal**: For managing users, permissions, and system reports.
+- **Patient Portal**: For patients to manage appointments and records.
+- **Provider Portal**: For healthcare providers to manage patient care.
 
 ## Installation
 
-Clone the repository and navigate into it:
+### Clone the Repository
 
-```sh
+```bash
 git clone https://github.com/Shival-Gupta/healthcare.git
 cd healthcare
 ```
 
-### Using Docker Compose
+### Run with Docker Compose
 
-To run the entire system with Docker Compose, use the following command:
-
-```sh
+```bash
 docker-compose up --build
 ```
 
-### Running Individual Services
+Access the portals:
 
-Each portal can also be run individually with Docker:
-
-#### Admin Portal
-
-```sh
-cd admin
-docker build -t healthcare-admin .
-docker run -p 4000:4000 healthcare-admin
-```
-
-Access the Admin Portal at http://localhost:4000
-
-#### Patient Portal
-
-```sh
-cd patient
-docker build -t healthcare-patient .
-docker run -p 4001:4001 healthcare-patient
-```
-
-Access the Patient Portal at http://localhost:4001
-
-#### Provider Portal
-
-```sh
-cd provider
-docker build -t healthcare-provider .
-docker run -p 4002:4002 healthcare-provider
-```
-
-Access the Provider Portal at http://localhost:4002
+- **Admin Portal**: `http://localhost:4000`
+- **Patient Portal**: `http://localhost:4001`
+- **Provider Portal**: `http://localhost:4002`
 
 ## Directory Structure
 
-The project directory is structured as follows:
+The project is organized as follows:
 
 ```
 healthcare/
 │
 ├── admin/
 │   ├── src/
-|   ├── package.json
+│   ├── package.json
 │   ├── Dockerfile
 │   └── ... (other files)
 │
 ├── patient/
 │   ├── src/
-|   ├── package.json
+│   ├── package.json
 │   ├── Dockerfile
 │   └── ... (other files)
 │
 ├── provider/
 │   ├── src/
-|   ├── package.json
+│   ├── package.json
 │   ├── Dockerfile
 │   └── ... (other files)
 │
 ├── docker-compose.yml
 ├── docker-compose.prod.yml
-├── info.sh
 ├── LICENSE
 ├── package.json
 └── README.md
 ```
 
+## Usage
+
+To use the system, access the portals using the provided URLs. For more detailed instructions, refer to the in-app documentation.
+
 ## Contributing
 
-Contributions are welcome! Please see the [CONTRIBUTING.md](./CONTRIBUTING.md) file for guidelines.
-
-## Usage Information
-
-### Development URLs
-
-After running `docker-compose up --build`, access the development websites at:
-
-- Admin Portal: http://192.168.29.16:4000
-- Patient Portal: http://192.168.29.16:4001
-- Provider Portal: http://192.168.29.16:4002
+Contributions are welcome! Check out the [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ## License
 
-This project is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License](./LICENSE). See the LICENSE file for more details.
-
-For a comprehensive understanding of the license terms, visit the [Legal Code](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).
+This project is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License](./LICENSE).
