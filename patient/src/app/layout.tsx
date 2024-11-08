@@ -18,11 +18,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head />
       <body className={fontFace.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <>
+          <div className="flex flex-col min-h-screen">
             <SiteHeader />
-            {children}
+            <main className="flex-grow">
+              {children}
+            </main>
             <SiteFooter />
-          </>
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -5,7 +5,7 @@ import "./globals.css";
 const fontFace = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Patient Portal",
+  title: "Provider Portal",
   description: "Portal for patients to manage appointments, view medical records, and access telemedicine services.",
 };
 

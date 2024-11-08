@@ -1,41 +1,53 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { CalendarDays, FileText, TestTube, Clock } from "lucide-react"
 
-export default function LandingPage() {
+const features = [
+  { title: "Book Appointment", description: "Schedule a new appointment with a doctor", icon: CalendarDays, href: "/book-appointment" },
+  { title: "Medical Records", description: "View your previous medical records and prescriptions", icon: FileText, href: "/medical-records" },
+  { title: "Test Results", description: "Access your latest test results", icon: TestTube, href: "/test-results" },
+  { title: "Upcoming Appointments", description: "View and manage your scheduled appointments", icon: Clock, href: "/appointments" },
+]
+
+export default function PatientDashboard() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-6">
-      <div className="text-center">
+    <div className="container mx-auto p-6 flex flex-col items-center justify-center">
+      <div className="text-center mb-12">
         <h1 className="text-4xl font-bold">Welcome to the Patient Portal</h1>
-        <p className="mt-4 text-lg text-gray-600">
+        <p className="mt-4 text-lg text-muted-foreground">
           Access all your health records, book appointments, and manage your medical information seamlessly.
         </p>
         <div className="mt-8 space-x-4">
-          <Link href="/login">
-            <Button variant="default">Login</Button>
-          </Link>
-          <Link href="/signup">
-            <Button variant="secondary">Sign Up</Button>
-          </Link>
+          <Button asChild variant="default">
+            <Link href="/profile">My Profile</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/settings">Settings</Link>
+          </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 w-full max-w-5xl">
-        {[
-          { title: "Appointments", description: "Book and manage your appointments easily." },
-          { title: "Medical Records", description: "View and download your medical records securely." },
-          { title: "Telemedicine", description: "Consult with doctors online from anywhere." },
-        ].map((feature, index) => (
-          <Card key={index} className="p-6 text-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+        {features.map((feature, index) => (
+          <Card key={index}>
             <CardHeader>
-              <CardTitle>{feature.title}</CardTitle>
+              <CardTitle className="flex items-center">
+                <feature.icon className="mr-2 h-5 w-5" />
+                {feature.title}
+              </CardTitle>
+              <CardDescription>{feature.description}</CardDescription>
             </CardHeader>
             <CardContent>
-              <p>{feature.description}</p>
+              <Button asChild variant="outline" className="w-full">
+                <Link href={feature.href}>
+                  Access
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         ))}
       </div>
-    </main>
-  );
+    </div>
+  )
 }

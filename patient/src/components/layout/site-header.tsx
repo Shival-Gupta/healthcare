@@ -1,64 +1,34 @@
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { SearchMenu } from "@/components/navigation/search-menu";
-import { siteConfig } from "@/config/site";
-import { Icons } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { ThemeToggle } from "@/components/theme/theme-toggle"
+import { buttonVariants } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { UserNav } from "@/components/navigation/user-nav"
+import { SearchMenu } from "@/components/navigation/search-menu"
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center">
-        <div>
-          <Link href="/" passHref>
-            <Label className="cursor-pointer">Patient Portal</Label>
+        <div className="mr-4">
+          <Link href="/" className="flex items-center space-x-2">
+            <Label className="cursor-pointer text-lg font-bold">Patient Portal</Label>
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-            <SearchMenu />
-          </div>
-          <nav className="flex items-center">
-            <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={cn(
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                  "w-9 px-0"
-                )}
-              >
-                <Icons.gitHub className="h-4 w-4" />
-                <span className="sr-only">GitHub</span>
-              </div>
+          <SearchMenu />
+          <nav className="flex items-center space-x-2">
+            <Link href="/appointments" className={cn(buttonVariants({ variant: "ghost" }), "hidden md:flex")}>
+              Appointments
             </Link>
-            <Link
-              href={siteConfig.links.twitter}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={cn(
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                  "w-9 px-0"
-                )}
-              >
-                <Icons.twitter className="h-3 w-3 fill-current" />
-                <span className="sr-only">Twitter</span>
-              </div>
+            <Link href="/medical-records" className={cn(buttonVariants({ variant: "ghost" }), "hidden md:flex")}>
+              Records
             </Link>
             <ThemeToggle />
+            <UserNav />
           </nav>
         </div>
       </div>
     </header>
-  );
+  )
 }
