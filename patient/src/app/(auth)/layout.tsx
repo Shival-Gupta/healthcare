@@ -1,16 +1,16 @@
-// src/app/(auth)/layout.tsx
+import { PublicHeader } from "@/components/layout/public-header";
 
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Authentication - Patient Portal",
-  description: "Login or Sign Up to access your patient portal.",
-};
-
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-6">
-      {children}
+    <div className="min-h-screen flex flex-col">
+      <PublicHeader />
+      <main className="flex-grow flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">{children}</div>
+      </main>
     </div>
   );
 }

@@ -1,11 +1,16 @@
-// src/app/(main)/layout.tsx
+import { AuthHeader } from "@/components/layout/auth-header";
 
-import { SiteHeader } from "@/components/layout/site-header";
-
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div>
-      <div className="container mx-auto p-6">{children}</div>
+    <div className="min-h-screen flex flex-col">
+      <AuthHeader />
+      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {children}
+      </main>
     </div>
   );
 }
