@@ -6,7 +6,7 @@ import { CalendarDays, FileText, TestTube, Clock, User, Settings } from "lucide-
 const quickActions = [
   { title: "Book Appointment", description: "Schedule a new appointment", icon: CalendarDays, href: "/appointments" },
   { title: "View Records", description: "Access your medical records", icon: FileText, href: "/records" },
-  { title: "Check Test Results", description: "View your latest test results", icon: TestTube, href: "/records" },
+  { title: "Check Test Results", description: "View your latest test results", icon: TestTube, href: "/test-results" },
   { title: "Manage Profile", description: "Update your personal information", icon: User, href: "/profile" },
 ];
 

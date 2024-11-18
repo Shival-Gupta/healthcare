@@ -8,35 +8,18 @@ export function PublicHeader() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-primary">
+            <Link href="/" className="text-2xl font-bold">
               Patient Portal
             </Link>
           </div>
           <nav className="hidden md:block">
             <ul className="flex items-center space-x-4">
-              <li>
-                <Link href="/#features" className="text-sm text-muted-foreground hover:text-primary">
-                  Features
-                </Link>
-              </li>
-              <li>
-                <Link href="/#about" className="text-sm text-muted-foreground hover:text-primary">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Button asChild variant="outline">
-                  <Link href="/login">Login</Link>
-                </Button>
-              </li>
-              <li>
-                <Button asChild>
-                  <Link href="/signup">Sign Up</Link>
-                </Button>
-              </li>
-              <li>
-                <ThemeToggle />
-              </li>
+              {/* <li><Link href="/#features" className="text-sm text-muted-foreground hover:text-primary">Features</Link></li>
+              <li><Link href="/#about" className="text-sm text-muted-foreground hover:text-primary">About</Link></li> */}
+              <li><Link href="/dashboard" className="text-sm text-muted-foreground hover:text-primary">Dashboard</Link></li>
+              <li><Button asChild variant="outline"><Link href="/login">Login</Link></Button></li>
+              <li><Button asChild><Link href="/signup">Sign Up</Link></Button></li>
+              <li><ThemeToggle /></li>
             </ul>
           </nav>
         </div>

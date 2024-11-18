@@ -1,10 +1,14 @@
-// src/app/(public)/layout.tsx
+import { PublicHeader } from "@/components/layout/public-header";
 
-export default function PublicLayout({ children }: { children: React.ReactNode }) {
-    return (
-      <div className="p-6">
-        {children}
-      </div>
-    );
-  }
-  
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <PublicHeader />
+      {children}
+    </div>
+  );
+}

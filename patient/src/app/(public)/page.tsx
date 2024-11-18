@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays, FileText, TestTube, Clock } from "lucide-react";
-import { PublicHeader } from "@/components/layout/public-header";
 
 const features = [
   { title: "Book Appointments", description: "Schedule new appointments with doctors", icon: CalendarDays },
@@ -14,7 +13,6 @@ const features = [
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <PublicHeader />
       <main className="flex-1">
         <section className="bg-background py-12 md:py-24 lg:py-32">
           <div className="container mx-auto px-4 md:px-6">
@@ -57,19 +55,6 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-      <footer className="bg-background border-t py-6 px-4 md:px-6">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-muted-foreground">© 2024 Patient Portal. All rights reserved.</p>
-          <nav className="flex gap-4 mt-4 md:mt-0">
-            <Link className="text-sm text-muted-foreground hover:text-primary" href="/terms">
-              Terms of Service
-            </Link>
-            <Link className="text-sm text-muted-foreground hover:text-primary" href="/privacy">
-              Privacy Policy
-            </Link>
-          </nav>
-        </div>
-      </footer>
     </div>
   );
 }

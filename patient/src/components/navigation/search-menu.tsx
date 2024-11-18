@@ -23,12 +23,13 @@ import {
 } from "@/components/ui/command"
 
 const patientNavItems = [
-  { title: "Dashboard", href: "/", icon: PersonIcon },
+  { title: "Dashboard", href: "/dashboard", icon: PersonIcon },
   { title: "Appointments", href: "/appointments", icon: CalendarIcon },
-  { title: "Medical Records", href: "/medical-records", icon: FileTextIcon },
+  { title: "Medical Records", href: "/records", icon: FileTextIcon },
   { title: "Test Results", href: "/test-results", icon: FileTextIcon },
   { title: "Profile", href: "/profile", icon: PersonIcon },
   { title: "Settings", href: "/settings", icon: GearIcon },
+  { title: "Home", href: "/", icon: GearIcon },
 ]
 
 export function SearchMenu({ ...props }: DialogProps) {

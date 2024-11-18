@@ -1,34 +1,73 @@
-import Link from "next/link"
-import { cn } from "@/lib/utils"
-import { ThemeToggle } from "@/components/theme/theme-toggle"
-import { buttonVariants } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { UserNav } from "@/components/navigation/user-nav"
-import { SearchMenu } from "@/components/navigation/search-menu"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { SearchMenu } from "@/components/navigation/search-menu";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 max-w-screen-2xl items-center">
-        <div className="mr-4">
-          <Link href="/" className="flex items-center space-x-2">
-            <Label className="cursor-pointer text-lg font-bold">Patient Portal</Label>
-          </Link>
-        </div>
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <SearchMenu />
-          <nav className="flex items-center space-x-2">
-            <Link href="/appointments" className={cn(buttonVariants({ variant: "ghost" }), "hidden md:flex")}>
-              Appointments
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border/40">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/dashboard" className="text-2xl font-bold text-primary">
+              Patient Portal
             </Link>
-            <Link href="/medical-records" className={cn(buttonVariants({ variant: "ghost" }), "hidden md:flex")}>
-              Records
-            </Link>
-            <ThemeToggle />
-            <UserNav />
-          </nav>
+          </div>
+          <div className="flex items-center space-x-4">
+            <SearchMenu />
+            <nav className="hidden md:block">
+              <ul className="flex items-center space-x-4">
+                <li><Link href="/dashboard" className="text-sm text-muted-foreground hover:text-primary">Dashboard</Link></li>
+                <li><Link href="/appointments" className="text-sm text-muted-foreground hover:text-primary">Appointments</Link></li>
+                <li><Link href="/records" className="text-sm text-muted-foreground hover:text-primary">Records</Link></li>
+                <li><ThemeToggle /></li>
+                <li>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src="/avatars/01.png" alt="@username" />
+                          <AvatarFallback>U</AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56" align="end" forceMount>
+                      <DropdownMenuLabel className="font-normal">
+                        <div className="flex flex-col space-y-1">
+                          <p className="text-sm font-medium leading-none">username</p>
+                          <p className="text-xs leading-none text-muted-foreground">
+                            user@example.com
+                          </p>
+                        </div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <Link href="/profile">Profile</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link href="/settings">Settings</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        Log out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </header>
-  )
+  );
 }

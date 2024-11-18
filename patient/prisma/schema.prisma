@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Patient {
+  username       String  @id // Primary key from Clerk
+  email          String  @unique
+  fullName       String
+  phoneNumber    String? @unique
+  dateOfBirth    DateTime
+  gender         String?
+  address        String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  appointments   Appointment[]
+  emergencyContacts EmergencyContact[] // Relation to EmergencyContact
+}
+
+model Provider {
+  username       String  @id
+  email          String  @unique
+  fullName       String
+  phoneNumber    String? @unique
+  category       ProviderCategory // Enum: DOCTOR, OPERATOR
+  specialization String
+  licenseNumber  String? @unique
+  verificationStatus VerificationStatus @default(PENDING) // Approved, Pending, Denied
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  appointments   Appointment[]
+}
+
+model Admin {
+  username       String  @id
+  email          String  @unique
+  fullName       String
+  department     String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Appointment {
+  id            Int      @id @default(autoincrement())
+  patientId     String
+  providerId    String
+  date          DateTime
+  remarks       String?  // Optional text field for doctors
+  status        AppointmentStatus @default(PENDING) // Scheduled, Completed, Canceled
+  createdAt     DateTime @default(now())
+
+  patient       Patient   @relation(fields: [patientId], references: [username], onDelete: Cascade)
+  provider      Provider  @relation(fields: [providerId], references: [username], onDelete: Cascade)
+
+  @@index([date])
+  @@index([status])
+}
+
+model EmergencyContact {
+  id            Int      @id @default(autoincrement())
+  patientId     String
+  name          String
+  relationship  String
+  phoneNumber   String
+  createdAt     DateTime @default(now())
+
+  patient       Patient   @relation(fields: [patientId], references: [username], onDelete: Cascade)
+
+  @@unique([patientId, name, phoneNumber]) // Unique combination for each patient
+}
+
+enum ProviderCategory {
+  DOCTOR
+  OPERATOR
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  DENIED
+}
+
+enum AppointmentStatus {
+  PENDING
+  SCHEDULED
+  COMPLETED
+  CANCELED
+}

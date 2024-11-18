@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") // MySQL connection URL
+}
+
+model Patient {
+  id              Int              @id @default(autoincrement())
+  email           String           @unique
+  password        String           // Hashed password
+  fullName        String
+  phoneNumber     String?          @unique
+  dateOfBirth     DateTime
+  gender          String?
+  address         String?
+  emergencyContact EmergencyContact?
+  insuranceInfo   String?          // Insurance details
+  mongoMedicalId  String?          // MongoDB reference for medical records
+  appointments    Appointment[]    // Relation with appointments
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@map("patients")
+}
+
+model Provider {
+  id              Int              @id @default(autoincrement())
+  email           String           @unique
+  password        String           // Hashed password
+  fullName        String
+  phoneNumber     String?          @unique
+  specialization  String           // Doctor or Test Operator specialization
+  licenseNumber   String?          // Unique license for doctors
+  verificationStatus VerificationStatus @default(PENDING) // Approved, Pending, Denied
+  mongoMedicalId  String?          // MongoDB reference for test operator results
+  appointments    Appointment[]    // Relation with appointments
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@map("providers")
+}
+
+model Admin {
+  id              Int              @id @default(autoincrement())
+  email           String           @unique
+  password        String           // Hashed password
+  fullName        String
+  department      String?          // Optional field for categorization
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@map("admins")
+}
+
+model Appointment {
+  id              Int              @id @default(autoincrement())
+  patientId       Int
+  providerId      Int
+  date            DateTime
+  notes           String?          // Notes about the appointment
+  prescription    String?          // MongoDB reference for prescription document
+  status          AppointmentStatus @default(PENDING) // Scheduled, Completed, Canceled
+  createdAt       DateTime         @default(now())
+
+  // Relations
+  patient         Patient          @relation(fields: [patientId], references: [id])
+  provider        Provider         @relation(fields: [providerId], references: [id])
+
+  @@map("appointments")
+}
+
+model EmergencyContact {
+  id              Int              @id @default(autoincrement())
+  patientId       Int              @unique
+  name            String
+  relationship    String
+  phoneNumber     String
+
+  // Relations
+  patient         Patient          @relation(fields: [patientId], references: [id])
+
+  @@map("emergency_contacts")
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  DENIED
+}
+
+enum AppointmentStatus {
+  PENDING
+  SCHEDULED
+  COMPLETED
+  CANCELED
+}
