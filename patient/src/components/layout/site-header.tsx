@@ -11,20 +11,20 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { SearchMenu } from "@/components/navigation/search-menu";
+import { SignOutButton } from "@clerk/nextjs";
 
-export function SiteHeader() {
+export default function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border/40">
+    <header className="sticky top-0 z-50 w-full bg-primary/95 backdrop-blur supports-[backdrop-filter]:bg-primary/5 border-b border-border/40">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link href="/dashboard" className="text-2xl font-bold text-primary">
+            <Link href="/dashboard" className="text-2xl font-bold">
               Patient Portal
             </Link>
           </div>
           <div className="flex items-center space-x-4">
-            <SearchMenu />
-            <nav className="hidden md:block">
+            <nav className="">
               <ul className="flex items-center space-x-4">
                 <li><Link href="/dashboard" className="text-sm text-muted-foreground hover:text-primary">Dashboard</Link></li>
                 <li><Link href="/appointments" className="text-sm text-muted-foreground hover:text-primary">Appointments</Link></li>
@@ -57,8 +57,12 @@ export function SiteHeader() {
                         <Link href="/settings">Settings</Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        Log out
+                      <DropdownMenuItem asChild>
+                        <Button variant='outline' className="p-0 border-0 min-w-full justify-start" asChild>
+                          <SignOutButton>
+                            Log out
+                          </SignOutButton>
+                        </Button>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

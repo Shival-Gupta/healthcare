@@ -7,88 +7,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model admin {
+  username   String   @id
+  email      String   @unique(map: "Admin_email_key")
+  fullName   String
+  department String?
+  createdAt  DateTime @default(now())
+}
+
+model appointment {
+  id           Int                @id @default(autoincrement())
+  patientId    String
+  providerId   String
+  date         DateTime
+  remarks      String?
+  prescription String?
+  status       appointment_status @default(PENDING)
+  createdAt    DateTime           @default(now())
+  patient      Patient            @relation(fields: [patientId], references: [username], map: "Appointment_patientId_fkey")
+  provider     provider           @relation(fields: [providerId], references: [username], map: "Appointment_providerId_fkey")
+
+  @@index([patientId], map: "Appointment_patientId_fkey")
+  @@index([providerId], map: "Appointment_providerId_fkey")
+}
+
+model emergencycontact {
+  id           Int     @id @default(autoincrement())
+  patientId    String
+  name         String
+  relationship String
+  phoneNumber  String
+  patient      Patient @relation(fields: [patientId], references: [username], map: "EmergencyContact_patientId_fkey")
+
+  @@index([patientId], map: "EmergencyContact_patientId_fkey")
+}
+
 model Patient {
-  username       String  @id // Primary key from Clerk
-  email          String  @unique
-  fullName       String
-  phoneNumber    String? @unique
-  dateOfBirth    DateTime
-  gender         String?
-  address        String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  appointments   Appointment[]
-  emergencyContacts EmergencyContact[] // Relation to EmergencyContact
+  username         String             @id
+  firstName        String?
+  lastName         String?
+  email            String?            @unique(map: "Patient_email_key")
+  phoneNumber      String?            @unique(map: "Patient_phoneNumber_key")
+  gender           String?
+  address          String?
+  createdAt        DateTime           @default(now())
+  dob              DateTime?
+  appointment      appointment[]
+  emergencycontact emergencycontact[]
 }
 
-model Provider {
-  username       String  @id
-  email          String  @unique
-  fullName       String
-  phoneNumber    String? @unique
-  category       ProviderCategory // Enum: DOCTOR, OPERATOR
-  specialization String
-  licenseNumber  String? @unique
-  verificationStatus VerificationStatus @default(PENDING) // Approved, Pending, Denied
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  appointments   Appointment[]
+model provider {
+  username           String                      @id
+  email              String                      @unique(map: "Provider_email_key")
+  firstName          String?
+  lastName           String?
+  phoneNumber        String?                     @unique(map: "Provider_phoneNumber_key")
+  category           provider_category
+  specialization     String
+  licenseNumber      String?                     @unique(map: "Provider_licenseNumber_key")
+  verificationStatus provider_verificationStatus @default(PENDING)
+  createdAt          DateTime                    @default(now())
+  appointment        appointment[]
 }
 
-model Admin {
-  username       String  @id
-  email          String  @unique
-  fullName       String
-  department     String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-model Appointment {
-  id            Int      @id @default(autoincrement())
-  patientId     String
-  providerId    String
-  date          DateTime
-  remarks       String?  // Optional text field for doctors
-  status        AppointmentStatus @default(PENDING) // Scheduled, Completed, Canceled
-  createdAt     DateTime @default(now())
-
-  patient       Patient   @relation(fields: [patientId], references: [username], onDelete: Cascade)
-  provider      Provider  @relation(fields: [providerId], references: [username], onDelete: Cascade)
-
-  @@index([date])
-  @@index([status])
-}
-
-model EmergencyContact {
-  id            Int      @id @default(autoincrement())
-  patientId     String
-  name          String
-  relationship  String
-  phoneNumber   String
-  createdAt     DateTime @default(now())
-
-  patient       Patient   @relation(fields: [patientId], references: [username], onDelete: Cascade)
-
-  @@unique([patientId, name, phoneNumber]) // Unique combination for each patient
-}
-
-enum ProviderCategory {
+enum provider_category {
   DOCTOR
   OPERATOR
 }
 
-enum VerificationStatus {
-  PENDING
-  APPROVED
-  DENIED
-}
-
-enum AppointmentStatus {
+enum appointment_status {
   PENDING
   SCHEDULED
   COMPLETED
   CANCELED
+}
+
+enum provider_verificationStatus {
+  PENDING
+  APPROVED
+  DENIED
 }

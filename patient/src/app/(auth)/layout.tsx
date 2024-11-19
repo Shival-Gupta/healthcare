@@ -1,4 +1,4 @@
-import { PublicHeader } from "@/components/layout/public-header";
+import PublicHeader from "@/components/layout/public-header";
 
 export default function AuthLayout({
   children,
