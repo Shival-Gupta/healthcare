@@ -7,11 +7,11 @@ export async function updateEmergencyContacts(
 	contacts: Array<{ id?: number; name: string; relationship: string; phoneNumber: string }>
 ) {
 	try {
-		const existingContacts = await prisma.emergencycontact.findMany({ where: { patientId } });
+		const existingContacts = await prisma.emergencyContact.findMany({ where: { patientId } });
 
 		// Delete removed contacts
 		const contactIds = contacts.map((c) => c.id).filter(Boolean);
-		await prisma.emergencycontact.deleteMany({
+		await prisma.emergencyContact.deleteMany({
 			where: {
 				patientId,
 				id: { notIn: contactIds.filter((id): id is number => id !== undefined) }
@@ -20,7 +20,7 @@ export async function updateEmergencyContacts(
 
 		// Upsert contacts
 		for (const contact of contacts) {
-			await prisma.emergencycontact.upsert({
+			await prisma.emergencyContact.upsert({
 				where: { id: contact.id || 0 },
 				create: { ...contact, patientId },
 				update: { ...contact },

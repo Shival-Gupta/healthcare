@@ -1,5 +1,3 @@
-import PublicHeader from "@/components/layout/public-header";
-
 export default function MainLayout({
   children,
 }: {
@@ -7,7 +5,6 @@ export default function MainLayout({
 }) {
   return (
     <div className="min-h-screen flex flex-col">
-      <PublicHeader />
       {children}
     </div>
   );
