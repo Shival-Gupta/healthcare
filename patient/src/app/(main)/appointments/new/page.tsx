@@ -1,84 +1,67 @@
-// src/app/(main)/appointments/page.tsx
-'use client'; // This is to tell Next.js to render this component on the client-side
+'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useClerk } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { bookAppointment } from '@/app/actions/bookAppointment';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
-// Define a type for the Appointment data
-interface Appointment {
-  id: number;
-  patientName: string;
-  providerName: string;
-  date: string;
-  status: 'PENDING' | 'SCHEDULED' | 'COMPLETED' | 'CANCELED';
-}
+const NewAppointment = () => {
+  const [appointmentId, setAppointmentId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const { user } = useClerk();
 
-export default function AppointmentsPage() {
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  // Fetch appointments on component mount
-  useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        // Assuming an API endpoint '/api/appointments' returns the appointments data
-        const response = await fetch('/api/appointments');
-        if (response.ok) {
-          const data = await response.json();
-          setAppointments(data);
-        } else {
-          console.error('Failed to fetch appointments');
-        }
-      } catch (error) {
-        console.error('Error fetching appointments:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAppointments();
-  }, []);
-
-  if (loading) {
-    return (
-      <div>
-        <h1 className="text-3xl font-bold">Appointments</h1>
-        <p className="mt-2">Loading your appointments...</p>
-      </div>
-    );
+  if (!user) {
+    redirect('/login');
   }
 
-  return (
-    <div>
-      <h1 className="text-3xl font-bold">Appointments</h1>
-      <p className="mt-2">Manage your appointments here.</p>
+  const _username = user.username;
+  if (!_username) {
+    return <div>Error Occurred</div>;
+  }
 
-      {/* Display appointments list */}
-      {appointments.length === 0 ? (
-        <p>No appointments found.</p>
+  const handleBookAppointment = async () => {
+    setLoading(true);
+    console.debug('Attempting to book appointment for user:', _username);
+
+    try {
+      const result = await bookAppointment(_username);
+
+      if (result.success) {
+        console.debug('Appointment booked successfully. Appointment ID:', result.appointmentId);
+        if (result.appointmentId) setAppointmentId(result.appointmentId);
+      } else {
+        console.error('Error booking appointment:', result.error);
+        alert(result.error);
+      }
+    } catch (error) {
+      console.error('Unexpected error occurred:', error);
+    }
+
+    setLoading(false);
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <h2 className="text-2xl font-semibold">Schedule New Appointment</h2>
+      </CardHeader>
+
+      {appointmentId ? (
+        <CardContent>
+          <h2>Appointment Scheduled!</h2>
+          <p>Your appointment ID is: <Button variant='secondary' size='icon'>{appointmentId}</Button></p>
+        </CardContent>
       ) : (
-        <div className="mt-4">
-          <table className="min-w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="border px-4 py-2">Patient</th>
-                <th className="border px-4 py-2">Provider</th>
-                <th className="border px-4 py-2">Date</th>
-                <th className="border px-4 py-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map((appointment) => (
-                <tr key={appointment.id}>
-                  <td className="border px-4 py-2">{appointment.patientName}</td>
-                  <td className="border px-4 py-2">{appointment.providerName}</td>
-                  <td className="border px-4 py-2">{new Date(appointment.date).toLocaleString()}</td>
-                  <td className="border px-4 py-2">{appointment.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <CardContent>
+          <Button onClick={handleBookAppointment} disabled={loading}>
+            {loading ? 'Scheduling...' : 'Book Appointment'}
+          </Button>
+        </CardContent>
       )}
-    </div>
+    </Card>
   );
-}
+};
+
+export default NewAppointment;

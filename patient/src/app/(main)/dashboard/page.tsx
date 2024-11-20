@@ -49,7 +49,7 @@ export default async function DashboardPage() {
         </Button>
       </div>
 
-      <Card>
+      <Card className="border-0">
         <CardHeader>
           <CardTitle className="flex items-center">
             <Clock className="mr-2 h-5 w-5" />
@@ -60,7 +60,7 @@ export default async function DashboardPage() {
           {/* This would be replaced with actual appointment data */}
           <p className="text-muted-foreground">You have no upcoming appointments.</p>
           <Button asChild className="mt-4">
-            <Link href="/appointments">Schedule an Appointment</Link>
+            <Link href="/appointments/new">Schedule an Appointment</Link>
           </Button>
         </CardContent>
       </Card>

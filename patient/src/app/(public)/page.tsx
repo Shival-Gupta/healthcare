@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays, FileText, TestTube, Clock } from "lucide-react";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const features = [
   { title: "Book Appointments", description: "Schedule new appointments with doctors", icon: CalendarDays },
@@ -10,7 +12,9 @@ const features = [
   { title: "Manage Appointments", description: "View and manage your scheduled appointments", icon: Clock },
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const { userId } = await auth();
+  if (userId) return redirect('/dashboard')
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex-1">
