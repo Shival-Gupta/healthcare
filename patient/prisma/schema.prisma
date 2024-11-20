@@ -7,82 +7,82 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model admin {
+model Admin {
   username   String   @id
-  email      String   @unique(map: "Admin_email_key")
+  email      String   @unique
   fullName   String
   department String?
   createdAt  DateTime @default(now())
 }
 
-model appointment {
-  id           Int                @id @default(autoincrement())
+model Patient {
+  username         String              @id
+  firstName        String?
+  lastName         String?
+  email            String?             @unique
+  phoneNumber      String?             @unique
+  gender           String?
+  address          String?
+  createdAt        DateTime            @default(now())
+  dob              DateTime?
+  appointments     Appointment[]
+  emergencyContacts EmergencyContact[]
+}
+
+model Provider {
+  username           String                   @id
+  email              String                   @unique
+  firstName          String?
+  lastName           String?
+  phoneNumber        String?                  @unique
+  category           ProviderCategory
+  specialization     String
+  licenseNumber      String?                  @unique
+  verificationStatus ProviderVerificationStatus @default(PENDING)
+  createdAt          DateTime                 @default(now())
+  appointments       Appointment[]
+}
+
+model Appointment {
+  id           Int                 @id @default(autoincrement())
   patientId    String
   providerId   String
   date         DateTime
   remarks      String?
   prescription String?
-  status       appointment_status @default(PENDING)
-  createdAt    DateTime           @default(now())
-  patient      Patient            @relation(fields: [patientId], references: [username], map: "Appointment_patientId_fkey")
-  provider     provider           @relation(fields: [providerId], references: [username], map: "Appointment_providerId_fkey")
+  status       AppointmentStatus   @default(PENDING)
+  createdAt    DateTime            @default(now())
+  patient      Patient             @relation(fields: [patientId], references: [username])
+  provider     Provider            @relation(fields: [providerId], references: [username])
 
-  @@index([patientId], map: "Appointment_patientId_fkey")
-  @@index([providerId], map: "Appointment_providerId_fkey")
+  @@index([patientId])
+  @@index([providerId])
 }
 
-model emergencycontact {
+model EmergencyContact {
   id           Int     @id @default(autoincrement())
   patientId    String
   name         String
   relationship String
   phoneNumber  String
-  patient      Patient @relation(fields: [patientId], references: [username], map: "EmergencyContact_patientId_fkey")
+  patient      Patient @relation(fields: [patientId], references: [username])
 
-  @@index([patientId], map: "EmergencyContact_patientId_fkey")
+  @@index([patientId])
 }
 
-model Patient {
-  username         String             @id
-  firstName        String?
-  lastName         String?
-  email            String?            @unique(map: "Patient_email_key")
-  phoneNumber      String?            @unique(map: "Patient_phoneNumber_key")
-  gender           String?
-  address          String?
-  createdAt        DateTime           @default(now())
-  dob              DateTime?
-  appointment      appointment[]
-  emergencycontact emergencycontact[]
-}
-
-model provider {
-  username           String                      @id
-  email              String                      @unique(map: "Provider_email_key")
-  firstName          String?
-  lastName           String?
-  phoneNumber        String?                     @unique(map: "Provider_phoneNumber_key")
-  category           provider_category
-  specialization     String
-  licenseNumber      String?                     @unique(map: "Provider_licenseNumber_key")
-  verificationStatus provider_verificationStatus @default(PENDING)
-  createdAt          DateTime                    @default(now())
-  appointment        appointment[]
-}
-
-enum provider_category {
+enum ProviderCategory {
   DOCTOR
   OPERATOR
 }
 
-enum appointment_status {
+enum AppointmentStatus {
   PENDING
   SCHEDULED
   COMPLETED
   CANCELED
 }
 
-enum provider_verificationStatus {
+enum ProviderVerificationStatus {
   PENDING
   APPROVED
   DENIED

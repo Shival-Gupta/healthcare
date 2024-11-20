@@ -6,7 +6,7 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 const quickActions = [
-  { title: "Book Appointment", description: "Schedule a new appointment", icon: CalendarDays, href: "/appointments" },
+  { title: "Past Appointment", description: "View past appointment", icon: CalendarDays, href: "/appointments-history" },
   { title: "View Records", description: "Access your medical records", icon: FileText, href: "/records" },
   { title: "Check Test Results", description: "View your latest test results", icon: TestTube, href: "/test-results" },
   { title: "Manage Profile", description: "Update your personal information", icon: User, href: "/profile" },

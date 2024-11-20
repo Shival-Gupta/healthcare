@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Patient } from '@prisma/client';
+import { Patient, Emergencycontact } from '@prisma/client';
 import { updateProfile } from '@/app/actions/updateProfile';
+import { updateEmergencyContacts } from '@/app/actions/updateEmergencyContacts';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -31,7 +32,20 @@ interface FormData {
   dob: Date | null;
 }
 
-export default function ProfileForm({ _patient }: { _patient: Patient }) {
+interface EmergencyContact {
+  id?: number;
+  name: string;
+  relationship: string;
+  phoneNumber: string;
+}
+
+export default function ProfileForm({
+  _patient,
+  _contacts,
+}: {
+  _patient: Patient;
+  _contacts: EmergencyContact[];
+}) {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     firstName: _patient.firstName || '',
@@ -44,12 +58,27 @@ export default function ProfileForm({ _patient }: { _patient: Patient }) {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false); // Track success state
+  const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
   const handleChange = (name: string, value: any) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleContactChange = (index: number, field: string, value: string) => {
+    const updatedContacts = [...emergencyContacts];
+    updatedContacts[index][field] = value;
+    setEmergencyContacts(updatedContacts);
+  };
+
+  const addContact = () => {
+    setEmergencyContacts([...emergencyContacts, { name: '', relationship: '', phoneNumber: '' }]);
+  };
+
+  const removeContact = (index: number) => {
+    const updatedContacts = emergencyContacts.filter((_, i) => i !== index);
+    setEmergencyContacts(updatedContacts);
   };
 
   const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
@@ -203,6 +232,43 @@ export default function ProfileForm({ _patient }: { _patient: Patient }) {
             </div>
 
             {error && <p className="text-sm text-red-600">{error}</p>}
+          </CardContent>
+          <CardContent>
+          <h3 className="text-lg font-semibold">Emergency Contacts</h3>
+              {emergencyContacts.map((contact, index) => (
+                <div key={index} className="space-y-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <Input
+                      placeholder="Name"
+                      value={contact.name}
+                      onChange={(e) => handleContactChange(index, 'name', e.target.value)}
+                      required
+                    />
+                    <Input
+                      placeholder="Relationship"
+                      value={contact.relationship}
+                      onChange={(e) => handleContactChange(index, 'relationship', e.target.value)}
+                      required
+                    />
+                    <Input
+                      placeholder="Phone Number"
+                      value={contact.phoneNumber}
+                      onChange={(e) => handleContactChange(index, 'phoneNumber', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => removeContact(index)}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+              <Button onClick={addContact} variant="secondary">
+                Add Contact
+              </Button>
           </CardContent>
 
           <CardFooter>
