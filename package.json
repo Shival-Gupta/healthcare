@@ -2,7 +2,7 @@
     "name": "healthcare",
     "version": "1.0.0",
     "scripts": {
-      "start:all": "concurrently \"npm --prefix ./admin run dev\" \"npm --prefix ./patient run dev\" \"npm --prefix ./provider run dev\""
+      "start-all": "concurrently \"npm --prefix ./admin run dev\" \"npm --prefix ./patient run dev\" \"npm --prefix ./provider run dev\""
     },
     "devDependencies": {
       "concurrently": "^7.0.0"
